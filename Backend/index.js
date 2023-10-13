@@ -141,6 +141,15 @@ app.get('/post', async (req,res) => {
   );
 });
 
+app.get('/comment', async (req,res) => {
+  res.json(
+    await Comment.find()
+      .populate('author', ['username'])
+      .sort({createdAt: -1})
+      .limit(100)
+  );
+});
+
 app.get('/post/:id', async (req, res) => {
   const {id} = req.params;
   const postDoc = await Post.findById(id).populate('author', ['username']);
